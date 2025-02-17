@@ -71,7 +71,7 @@ export const NewCommentForm: React.FC<Props> = ({ postId, setComments }) => {
     setLoading(true);
 
     client
-      .post<Comment>(`/comments?postId=${postId}`, {
+      .post<Comment>('/comments', {
         postId: postId,
         name: name,
         email: email,
