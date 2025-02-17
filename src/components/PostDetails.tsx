@@ -57,13 +57,13 @@ export const PostDetails: React.FC<Props> = ({ selectedPost }) => {
             </div>
           )}
 
-          {comments.length === 0 && (
+          {comments.length === 0 && !loading && (
             <p className="title is-4" data-cy="NoCommentsMessage">
               No comments yet
             </p>
           )}
 
-          {comments.length > 0 && (
+          {comments.length > 0 && !loading && (
             <>
               <p className="title is-4">Comments:</p>
               {comments.map(comment => (
@@ -95,7 +95,7 @@ export const PostDetails: React.FC<Props> = ({ selectedPost }) => {
             </>
           )}
 
-          {formShown !== selectedPost.id && (
+          {formShown !== selectedPost.id && !loading && (
             <button
               data-cy="WriteCommentButton"
               type="button"
