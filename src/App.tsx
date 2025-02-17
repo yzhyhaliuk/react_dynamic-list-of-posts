@@ -28,27 +28,26 @@ export const App = () => {
       .then(usersFromServer => setUsers(usersFromServer));
   }, []);
 
-  useEffect(() => {
-    if (!selectedId) {
-      return;
+  const fetchPosts = async (userId: number) => {
+    try {
+      setSelectedId(userId);
+      setLoading(true);
+      setPosts([]);
+      setSelectedPostId(null);
+
+      const postsFromServer = await client.get<Post[]>(
+        `/posts?userId=${userId}`,
+      );
+
+      setPosts(postsFromServer);
+      setError(false);
+    } catch (err) {
+      setError(true);
+    } finally {
+      setLoading(false);
+      setActive(false);
     }
-
-    setLoading(true);
-    setPosts([]);
-    setSelectedPostId(null);
-
-    client
-      .get<Post[]>(`/posts?userId=${selectedId}`)
-      .then(postsFromServer => {
-        setPosts(postsFromServer);
-        setError(false);
-      })
-      .catch(() => setError(true))
-      .finally(() => {
-        setLoading(false);
-        setActive(false);
-      });
-  }, [selectedId]);
+  };
 
   const handlePostSelecting = (id: number) => {
     if (selectedPostId === id) {
@@ -69,7 +68,7 @@ export const App = () => {
               <div className="block">
                 <UserSelector
                   users={users}
-                  setSelectedId={setSelectedId}
+                  onSelect={fetchPosts}
                   selectedId={selectedId}
                   active={active}
                   setActive={setActive}

@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 type Props = {
   users: User[];
-  setSelectedId: React.Dispatch<React.SetStateAction<number | null>>;
+  onSelect: (id: number) => void;
   selectedId: number | null;
   active: boolean;
   setActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,7 +12,7 @@ type Props = {
 
 export const UserSelector: React.FC<Props> = ({
   users,
-  setSelectedId,
+  onSelect,
   selectedId,
   active,
   setActive,
@@ -58,7 +58,7 @@ export const UserSelector: React.FC<Props> = ({
               className={classNames('dropdown-item', {
                 'is-active': user.id === selectedId,
               })}
-              onClick={() => setSelectedId(user.id)}
+              onClick={() => onSelect(user.id)}
             >
               {user.name}
             </a>
